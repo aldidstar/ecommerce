@@ -1,12 +1,15 @@
 const Item = require("../models/Item");
-// var multer =  require('multer');
-// var multerS3 = require('multer-s3');
 var AWS = require('aws-sdk');
 
 module.exports = {
   itemRead: async (req, res) => {
+    const limit = 3
+    const page = req.query.page || 1
+    // const offset
     try {
-      const item = await Item.find();
+      const item = await Item.find().limit(limit)
+      .skip(limit * page);
+     
       res.status(200).json(item);
     } catch (err) {
       res.status(201).json({

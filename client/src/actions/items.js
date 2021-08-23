@@ -15,17 +15,17 @@ import {
 } from '../constants'
 
 
-export const drawLoadItem = (items) => ({
+export const drawLoadItem = (items, page) => ({
     type: DRAW_LOAD_ITEM,
-    items
+    items, page
 })
 
 export const failedLoadItem = () => ({
     type: FAILED_LOAD_ITEM
 })
 
-export const loadItem = () => ({
-    type: LOAD_ITEM
+export const loadItem = (page) => ({
+    type: LOAD_ITEM, page
 })
 
 export const drawAddItem = (title, rate, description, price, brand, detail, image) => ({

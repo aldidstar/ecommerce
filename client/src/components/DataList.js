@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-
+// import InfiniteScroll from "react-infinite-scroll-component";
 
 import DataItem from "./DataItem";
 import { loadItem } from "../actions/items";
@@ -15,16 +15,43 @@ export default function UserList(props) {
     shallowEqual
   );
 
-  const dispatch = useDispatch();
+  const [isFetching, setIsFetching] = useState(false);
+  const [page, setPage] = useState(1);
+  const dispatch = useDispatch()
 
-  const addData = (event) => {
+  useEffect(() => {
+		dispatch(loadItem(page));
+		window.addEventListener('scroll', handleScroll);
+	}, [dispatch]);
+
+  const handleScroll = () => {
+    console.log(window.innerHeight + document.documentElement.scrollTop)
+    if (
+      Math.ceil(window.innerHeight + document.documentElement.scrollTop) ==
+        document.documentElement.offsetHeight ||
+      isFetching
+    ) {
+      setIsFetching(true);
+    }
+  };
+
+
+  const addData = (event) => { 
     event.preventDefault();
-  window.location = "/DataAdd"
+    window.location = "/DataAdd";
   };
 
   useEffect(() => {
-    dispatch(loadItem());
-  }, [dispatch]);
+		if (!isFetching) return;
+		fetchMoreListItems();
+	}, [isFetching]);
+
+	const fetchMoreListItems = () => {
+    setPage(page + 1)
+		dispatch(loadItem(page));
+		setIsFetching(false);
+	};
+
 
   let nodeList = items.map((item, index) => <DataItem {...item} key={index} />);
 
@@ -37,9 +64,8 @@ export default function UserList(props) {
         </Link>
       </button>
       <div className="container">
-        <div className="row">
-         {nodeList}
-        </div>
+        <div className="row">{nodeList}</div>
+        
       </div>
     </div>
   );

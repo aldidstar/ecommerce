@@ -11,22 +11,16 @@ export default function DataItem(props) {
   
 
   // const dispatch = useDispatch();
-
-  
-
-
   const detailItem = (event) => {
+    // console.log(props.length)
     event.preventDefault();
- 
-    
-    // window.location = "/DetailProduct"
- 
     localStorage.setItem("title", props.title);
     localStorage.setItem("price", props.price);
     localStorage.setItem("detail", props.detail);
     localStorage.setItem("brand", props.brand);
     localStorage.setItem("image", props.image);
-    console.log(props.image)
+    
+    // window.location = "/DetailProduct"
   };
 
   const rate = [];

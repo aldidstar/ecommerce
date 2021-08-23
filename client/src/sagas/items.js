@@ -19,9 +19,12 @@ const request = axios.create({
   timeout: 10000,
 });
 
-const read = async (path) =>
+
+const read = async (path, page = 1) =>
   await request
-    .get(path)
+    .get(path, { params: {
+      page 
+    }})
     .then((response) => response.data)
     .catch((err) => {
       throw err;
@@ -61,9 +64,10 @@ const PATHITEM = "api/item";
 const PATH = "api/transaction";
 
 // load
-function* loadItem() {
+function* loadItem(payload) {
+  const { page } = payload;
   try {
-    const data = yield call(read, PATHITEM);
+    const data = yield call(read, PATHITEM, page);
     yield put(actions.drawLoadItem(data));
   } catch (error) {
     console.log(error);
