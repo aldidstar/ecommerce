@@ -3,7 +3,7 @@ var AWS = require('aws-sdk');
 
 module.exports = {
   itemRead: async (req, res) => {
-    const limit = 3
+    const limit = 4
     const page = req.query.page || 1
     // const offset
     try {

@@ -22,12 +22,13 @@ export default function UserList(props) {
   useEffect(() => {
 		dispatch(loadItem(page));
 		window.addEventListener('scroll', handleScroll);
+    setIsFetching(true);
 	}, [dispatch]);
 
   const handleScroll = () => {
     console.log(window.innerHeight + document.documentElement.scrollTop)
     if (
-      Math.ceil(window.innerHeight + document.documentElement.scrollTop) ==
+      Math.ceil(window.innerHeight + document.documentElement.scrollTop) ===
         document.documentElement.offsetHeight ||
       isFetching
     ) {
